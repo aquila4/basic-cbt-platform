@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Sign in — Basic CBT Platform{% endblock %}
+{% block body %}
+<div class="login-page">
+  <div class="login-card">
+    <div class="login-head">
+      <div class="exam-mark">CBT</div>
+      <h1>Basic CBT Platform</h1>
+      <p>Sign in to continue to your exams</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div style="margin: 0 32px 18px;">
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="{{ url_for('login') }}">
+      <div class="role-toggle">
+        <label>
+          <input type="radio" name="role" value="student" checked>
+          <span>Student</span>
+        </label>
+        <label>
+          <input type="radio" name="role" value="admin">
+          <span>Admin</span>
+        </label>
+      </div>
+
+      <div class="login-form">
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required autocomplete="username">
+        </div>
+        <div class="field">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="current-password">
+        </div>
+        <button type="submit" class="btn btn-block">Sign in</button>
+      </div>
+    </form>
+
+    <div class="demo-creds">
+      <strong>Demo credentials</strong><br>
+      Student — username <strong>student001</strong>, password <strong>student123</strong><br>
+      Admin — username <strong>admin</strong>, password <strong>admin123</strong>
+    </div>
+  </div>
+</div>
+{% endblock %}

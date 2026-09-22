@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block title %}Questions — Basic CBT Platform{% endblock %}
+{% block body %}
+{% set active = "questions" %}
+{% include "_admin_shell_open.html" %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="page-head">
+      <h1>Questions</h1>
+      <a href="{{ url_for('add_question') }}" class="btn">Add question</a>
+    </div>
+
+    <div class="panel">
+      {% if questions %}
+      <table>
+        <thead>
+          <tr><th>Exam</th><th>Question</th><th>Correct</th><th></th></tr>
+        </thead>
+        <tbody>
+          {% for q in questions %}
+          <tr>
+            <td>{{ q.exam_title }}</td>
+            <td>{{ q.question_text }}</td>
+            <td><span class="pill pill-correct">{{ q.correct_answer }}</span></td>
+            <td>
+              <form method="POST" action="{{ url_for('delete_question', question_pk=q.id) }}"
+                    onsubmit="return confirm('Delete this question?');">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state">
+        <h3>No questions yet</h3>
+        <p>Add questions to an exam so students can take it.</p>
+      </div>
+      {% endif %}
+    </div>
+
+  </main>
+</div>
+{% endblock %}

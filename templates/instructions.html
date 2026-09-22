@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Instructions — {{ exam.title }}{% endblock %}
+{% block body %}
+{% include "_topbar_student.html" %}
+<div class="container">
+  <div class="instructions-card">
+    <h1>Before you begin</h1>
+    <p style="color: var(--ink-soft); margin-bottom: 20px;">{{ exam.title }}</p>
+
+    <div class="exam-brief">
+      <div><strong>{{ question_count }}</strong>Questions</div>
+      <div><strong>{{ exam.duration_minutes }} min</strong>Duration</div>
+      <div><strong>MCQ</strong>Format</div>
+    </div>
+
+    <ul>
+      <li>Read each question carefully before selecting an answer.</li>
+      <li>Select one option per question.</li>
+      <li>You can move freely between questions using Next, Previous, or the question navigator.</li>
+      <li>The exam will automatically submit when the timer reaches zero.</li>
+      <li>Make sure you click <strong>Submit Exam</strong> before leaving the exam page — unsubmitted answers are not saved.</li>
+    </ul>
+
+    <a class="btn btn-block" href="{{ url_for('exam', exam_id=exam.id) }}">Start exam</a>
+  </div>
+</div>
+{% endblock %}

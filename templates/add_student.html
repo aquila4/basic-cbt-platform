@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Add Student — Basic CBT Platform{% endblock %}
+{% block body %}
+{% set active = "students" %}
+{% include "_admin_shell_open.html" %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="page-head">
+      <h1>Add student</h1>
+    </div>
+
+    <div class="form-card">
+      <form method="POST" action="{{ url_for('add_student') }}">
+        <div class="form-row">
+          <div class="field">
+            <label for="full_name">Full name</label>
+            <input type="text" id="full_name" name="full_name" required>
+          </div>
+          <div class="field">
+            <label for="student_id">Student ID</label>
+            <input type="text" id="student_id" name="student_id" placeholder="e.g. STU004" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="field">
+            <label for="username">Username</label>
+            <input type="text" id="username" name="username" required>
+          </div>
+          <div class="field">
+            <label for="password">Password</label>
+            <input type="text" id="password" name="password" required>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn">Add student</button>
+          <a href="{{ url_for('students') }}" class="btn btn-outline">Cancel</a>
+        </div>
+      </form>
+    </div>
+
+  </main>
+</div>
+{% endblock %}

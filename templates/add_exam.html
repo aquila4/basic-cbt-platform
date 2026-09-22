@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Create Exam — Basic CBT Platform{% endblock %}
+{% block body %}
+{% set active = "exams" %}
+{% include "_admin_shell_open.html" %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="page-head">
+      <h1>Create exam</h1>
+    </div>
+
+    <div class="form-card">
+      <form method="POST" action="{{ url_for('add_exam') }}">
+        <div class="field">
+          <label for="title">Exam title</label>
+          <input type="text" id="title" name="title" placeholder="e.g. Mathematics Mock Test" required>
+        </div>
+        <div class="field">
+          <label for="description">Description</label>
+          <textarea id="description" name="description" rows="3" placeholder="Brief description shown to students"></textarea>
+        </div>
+        <div class="field">
+          <label for="duration_minutes">Duration (minutes)</label>
+          <input type="number" id="duration_minutes" name="duration_minutes" min="1" value="30" required>
+        </div>
+        <div class="form-actions">
+          <button type="submit" class="btn">Create exam</button>
+          <a href="{{ url_for('exams') }}" class="btn btn-outline">Cancel</a>
+        </div>
+      </form>
+    </div>
+
+  </main>
+</div>
+{% endblock %}

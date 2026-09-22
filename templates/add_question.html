@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+{% block title %}Add Question — Basic CBT Platform{% endblock %}
+{% block body %}
+{% set active = "questions" %}
+{% include "_admin_shell_open.html" %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="page-head">
+      <h1>Add question</h1>
+    </div>
+
+    {% if exams %}
+    <div class="form-card">
+      <form method="POST" action="{{ url_for('add_question') }}">
+        <div class="field">
+          <label for="exam_id">Exam</label>
+          <select id="exam_id" name="exam_id" required>
+            {% for e in exams %}
+              <option value="{{ e.id }}">{{ e.title }}</option>
+            {% endfor %}
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="question_text">Question text</label>
+          <textarea id="question_text" name="question_text" rows="2" required></textarea>
+        </div>
+
+        <fieldset>
+          <legend>Answer options</legend>
+          <div class="field option-field">
+            <span class="letter-badge">A</span>
+            <input type="text" name="option_a" required style="flex:1;">
+          </div>
+          <div class="field option-field">
+            <span class="letter-badge">B</span>
+            <input type="text" name="option_b" required style="flex:1;">
+          </div>
+          <div class="field option-field">
+            <span class="letter-badge">C</span>
+            <input type="text" name="option_c" required style="flex:1;">
+          </div>
+          <div class="field option-field" style="margin-bottom:0;">
+            <span class="letter-badge">D</span>
+            <input type="text" name="option_d" required style="flex:1;">
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend>Correct answer</legend>
+          <div class="radio-row">
+            <label><input type="radio" name="correct_answer" value="A" required> A</label>
+            <label><input type="radio" name="correct_answer" value="B"> B</label>
+            <label><input type="radio" name="correct_answer" value="C"> C</label>
+            <label><input type="radio" name="correct_answer" value="D"> D</label>
+          </div>
+        </fieldset>
+
+        <div class="form-actions">
+          <button type="submit" class="btn">Add question</button>
+          <a href="{{ url_for('questions') }}" class="btn btn-outline">Cancel</a>
+        </div>
+      </form>
+    </div>
+    {% else %}
+    <div class="panel">
+      <div class="empty-state">
+        <h3>Create an exam first</h3>
+        <p>You need at least one exam before you can add questions.</p>
+        <a href="{{ url_for('add_exam') }}" class="btn" style="margin-top:10px;display:inline-block;">Create exam</a>
+      </div>
+    </div>
+    {% endif %}
+
+  </main>
+</div>
+{% endblock %}

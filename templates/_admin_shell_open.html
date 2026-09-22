@@ -1,0 +1,22 @@
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark">Basic CBT</span>
+      <span class="brand-sub">Admin Console</span>
+    </div>
+    <div class="topbar-user">
+      <span>Signed in as <span class="name">{{ session.full_name }}</span></span>
+      <a class="logout-link" href="{{ url_for('logout') }}">Log out</a>
+    </div>
+  </div>
+</div>
+<div class="admin-shell">
+  <nav class="admin-nav">
+    <a href="{{ url_for('admin_dashboard') }}" class="{{ 'active' if active == 'dashboard' else '' }}">Dashboard</a>
+    <a href="{{ url_for('students') }}" class="{{ 'active' if active == 'students' else '' }}">Students</a>
+    <a href="{{ url_for('exams') }}" class="{{ 'active' if active == 'exams' else '' }}">Exams</a>
+    <a href="{{ url_for('questions') }}" class="{{ 'active' if active == 'questions' else '' }}">Questions</a>
+    <a href="{{ url_for('all_results') }}" class="{{ 'active' if active == 'results' else '' }}">Results</a>
+    <a href="{{ url_for('logout') }}">Logout</a>
+  </nav>
+  <main class="admin-main">

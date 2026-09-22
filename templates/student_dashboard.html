@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — Basic CBT Platform{% endblock %}
+{% block body %}
+{% include "_topbar_student.html" %}
+<div class="container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+      <div class="flash-wrap" style="margin-left:0;padding-left:0;">
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  <div class="page-head">
+    <div>
+      <div class="eyebrow">Student ID: {{ student.student_id }}</div>
+      <h1>Welcome, {{ student.full_name }}</h1>
+    </div>
+  </div>
+
+  {% if exams %}
+  <div class="exam-list">
+    {% for exam in exams %}
+      <div class="exam-card">
+        {% if exam.id in taken_exam_ids %}
+          <span class="taken-badge">Completed</span>
+        {% endif %}
+        <h3>{{ exam.title }}</h3>
+        <p class="desc">{{ exam.description or "No description provided." }}</p>
+        <div class="exam-meta">
+          <div><strong>{{ exam.question_count }}</strong>Questions</div>
+          <div><strong>{{ exam.duration_minutes }} min</strong>Duration</div>
+        </div>
+        {% if exam.question_count > 0 %}
+          <a class="btn btn-block" href="{{ url_for('instructions', exam_id=exam.id) }}">
+            {{ "Retake exam" if exam.id in taken_exam_ids else "Start exam" }}
+          </a>
+        {% else %}
+          <button class="btn btn-block btn-outline" disabled>No questions yet</button>
+        {% endif %}
+      </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <div class="panel">
+    <div class="empty-state">
+      <h3>No exams available yet</h3>
+      <p>Check back once your school has scheduled an exam.</p>
+    </div>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

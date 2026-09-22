@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Students — Basic CBT Platform{% endblock %}
+{% block body %}
+{% set active = "students" %}
+{% include "_admin_shell_open.html" %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="page-head">
+      <h1>Students</h1>
+      <a href="{{ url_for('add_student') }}" class="btn">Add student</a>
+    </div>
+
+    <div class="panel">
+      {% if students %}
+      <table>
+        <thead>
+          <tr><th>Student ID</th><th>Full name</th><th>Username</th><th>Added</th><th></th></tr>
+        </thead>
+        <tbody>
+          {% for s in students %}
+          <tr>
+            <td>{{ s.student_id }}</td>
+            <td>{{ s.full_name }}</td>
+            <td>{{ s.username }}</td>
+            <td>{{ s.created_at }}</td>
+            <td>
+              <form method="POST" action="{{ url_for('delete_student', student_pk=s.id) }}"
+                    onsubmit="return confirm('Remove {{ s.full_name }}? This also deletes their results.');">
+                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+              </form>
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state">
+        <h3>No students yet</h3>
+        <p>Add your first student to get started.</p>
+      </div>
+      {% endif %}
+    </div>
+
+  </main>
+</div>
+{% endblock %}

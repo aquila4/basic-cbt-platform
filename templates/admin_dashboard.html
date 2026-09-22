@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard — Basic CBT Platform{% endblock %}
+{% block body %}
+{% set active = "dashboard" %}
+{% include "_admin_shell_open.html" %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash flash-{{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="page-head">
+      <h1>Dashboard</h1>
+    </div>
+
+    <div class="stat-row">
+      <div class="stat-box">
+        <div class="num">{{ total_students }}</div>
+        <div class="label">Total students</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">{{ total_exams }}</div>
+        <div class="label">Total exams</div>
+      </div>
+      <div class="stat-box">
+        <div class="num">{{ total_questions }}</div>
+        <div class="label">Total questions</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-head">
+        <h2>Recent results</h2>
+        <a href="{{ url_for('all_results') }}" class="btn btn-outline btn-sm">View all</a>
+      </div>
+      {% if recent_results %}
+      <table>
+        <thead>
+          <tr><th>Student</th><th>Exam</th><th>Score</th><th>Percentage</th><th>Date</th></tr>
+        </thead>
+        <tbody>
+          {% for r in recent_results %}
+          <tr>
+            <td>{{ r.student_name }}</td>
+            <td>{{ r.exam_title }}</td>
+            <td>{{ r.score }}/{{ r.total_questions }}</td>
+            <td>{{ r.percentage }}%</td>
+            <td>{{ r.date_taken }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <div class="empty-state">
+        <h3>No results yet</h3>
+        <p>Results will appear here once students start taking exams.</p>
+      </div>
+      {% endif %}
+    </div>
+
+  </main>
+</div>
+{% endblock %}
